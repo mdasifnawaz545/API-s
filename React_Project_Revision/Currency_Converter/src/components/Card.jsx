@@ -17,7 +17,7 @@ function Card({
         <div className=' w-96 h-24  bg-white rounded-lg flex justify-around items-center '>
             <div className='flex  flex-col gap-3'>
                 <label htmlFor={currencyList}>{cardType}</label>
-                <input type="number" value={amount} disabled={amountDisable} id={currencyList} className='outline-none h-8 px-2 border w-32 rounded-lg' onChange={(event)=> {onAmountChange && onAmountChange(event.target.value)}}/>
+                <input type="number" placeholder='0' value={amount} disabled={amountDisable} id={currencyList} className='outline-none h-8 px-2 border w-32 rounded-lg' onChange={(event)=> {onAmountChange && onAmountChange(event.target.value)}}/>
             </div>
 
             <div className='flex flex-col gap-3 justify-end items-end'>
