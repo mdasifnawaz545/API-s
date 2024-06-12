@@ -1,21 +1,62 @@
 import { useState } from 'react'
-import Card from './components/Card'
+import Card from './components/Card';
 import Button from './components/Button';
+import useCurrency from './hooks/useCurrency';
 
 
 function App() {
-  const currencyArr = ["inr", "pkr", "riyal"];
+
+  const [currencyList, setCurrencyList] = useState([]);
+  const [amount, setAmount] = useState(0);
+  const [convertedAmount, setconvertedAmount] = useState(0);
+  const [toCurrency, setToCurrency] = useState("inr");
+  const [fromCurrency, setFromCurrency] = useState("inr");
+  const onAmountChange = (value) => {
+    setAmount((prev) => (prev = value))
+  }
+  console.log(amount);
+  console.log(toCurrency);
+  console.log(fromCurrency);
+  const onCurrencyChange = (value) => {
+    setToCurrency((prev) => (prev = value))
+  }
+  const onCurrencyChangeFrom = (value) => {
+    setFromCurrency((prev) => (prev = value))
+  }
+
+  const data = useCurrency(toCurrency);
+  let list = Object.keys(data);
+
+
+
+
+console.log(`${data[`${fromCurrency}`]}`)
+const converter = () => {
+  console.log(amount)
+  console.log(`${data[`${fromCurrency}`]}`)
+  console.log(convertedAmount)
+  setconvertedAmount((prev) => (prev = amount * data[`${fromCurrency}`])
+  )}
+console.log(convertedAmount)
 
   return (
-    <div className='w-full h-screen flex justify-center items-center' style={{ backgroundImage: `url('https://images.unsplash.com/photo-1631943406801-ba6ccfa4f682?q=80&w=1887&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D)` }}>
+    <div className='w-full h-screen flex justify-center items-center' style={{ backgroundImage: `url('https://images.pexels.com/photos/235986/pexels-photo-235986.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2)` }}>
 
-      <div className='rounded-md flex flex-col justify-center items-center bg-slate-300 p-4 '>
+      <div className='rounded-md flex flex-col justify-center items-center backdrop-blur-xl p-4 '>
 
-        <Card cardType="From" currArray={currencyArr}></Card>
+        <Card cardType="From" currencyList={list}
+          onAmountChange={onAmountChange}
+          amount={amount}
+          onCurrencyChange={onCurrencyChange}
+          selectedCurrency={toCurrency} ></Card>
         <Button buttonName={"Swap"}></Button>
-        <Card cardType="To" currArray={currencyArr}></Card>
+        <Card cardType="To" currencyList={list}
+          amountDisable={true} amount={convertedAmount}
+          onCurrencyChange={onCurrencyChangeFrom}
+          selectedCurrency={fromCurrency}
+        ></Card>
         <br />
-        <Button buttonName={"Convert USD to INR"} stylesheet={"w-full mb-0.5 p-2"}/>
+        <Button buttonName={`Convert ${toCurrency} to ${fromCurrency}`} stylesheet={"w-full mb-0.5 p-2"} onClick={()=>{converter()}} />
 
 
 
