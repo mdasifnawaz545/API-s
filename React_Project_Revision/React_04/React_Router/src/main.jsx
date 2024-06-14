@@ -9,6 +9,7 @@ import Github from './components/Github.jsx'
 import Layout from './components/Layout.jsx'
 import NotFound from './components/NotFound.jsx'
 import User from './components/User.jsx'
+import {githubInfos} from './components/Github.jsx'
 
 // const router = createBrowserRouter(
 //   [
@@ -31,7 +32,7 @@ const router = createBrowserRouter(
       <Route path='/' element={<Home />} />
       <Route path='about' element={<About />} />
       <Route path='contact' element={<Contact />} />
-      <Route path='github' element={<Github />} />
+      <Route path='github' element={<Github />} loader={githubInfos}/>
       <Route path='user/:query' element={<User />} />
     </Route>
   )
