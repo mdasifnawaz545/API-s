@@ -5,7 +5,7 @@ import { NavLink } from 'react-router-dom'
 
 function Header() {
     return (
-        <div className='w-full h-[4rem] fixed bg-white shadow-lg'>
+        <div className='w-full h-[4rem] fixed bg-white dark:bg-[#212121] dark:text-white shadow-lg'>
             <nav className='px-2 list-none min-w-full min-h-full flex items-center justify-between'>
                 <div><li  >Your <span className='text-green-500'>LOGO</span></li></div>
                 <div className='flex  lg:visible gap-4  '>
