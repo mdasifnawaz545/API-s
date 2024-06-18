@@ -1,75 +1,65 @@
-import { useState } from 'preact/hooks'
-import preactLogo from './assets/preact.svg'
-import viteLogo from '/vite.svg'
-import './app.css'
-import Card from './components/TodoList.jsx'
-import { TodoContextProvider } from './context/TodoContext.js'
-import InputBox from './components/InputBox.jsx'
-import TodoList from './components/TodoList.jsx'
+import React from 'react'
+import { useState,useEffect } from 'react'
+import Title from './components/Title'
+import InputBox from './components/InputBox'
+import TodoList from './components/TodoList'
+import { TodoContextProvider, TodoContext, useTodo } from './context/TodoContext'
 
 export function App() {
-
-  const [todo, setTodo] = useState([]);
+  const [todos, settodos] = useState([]);
 
   const addTodo = (todo) => {
-    let todoObj = {
-      id: '2',
-      todoTask: todo,
-      isDone: false
-    }
-    setTodo((prev) => ([...prev, todoObj]))
+    settodos((prev) => (
+      [...prev, { id: Date.now(), todoTask: todo, isDone: false }]
+    ))
   }
-
   const editTodo = (id, todo) => {
-    setTodo((prev) => {
-      const updatedTodo = prev.map((el) => {
+    settodos((prev) => (
+      prev.map((el) => {
         if (el.id === id) {
-         el.todoTask=todo
-         return el;
-
-        }
-        else {
-          return el;
-        }
-      }
-
-      )
-      return updatedTodo;
-    })
-  }
-
-  const deleteTodo = (id) => {
-    setTodo((prev) => {
-      const updatedTodo = prev.filter((el) = (el.id !== id))
-      return updatedTodo;
-    })
-  }
-
-  const completeTodo = (id) => {
-    setTodo((prev) => {
-      let updatedTodo = prev.map((el) => {
-        if (el.id === id) {
-          el.isDone = true;
-          return el;
+          return { ...el, todoTask: todo }
         }
         else return el;
-      });
-
+      })
+    ))
+  }
+  const deleteTodo = (id) => {
+    settodos((prev) => {
+      let latestTodo = prev.filter((el) => (el.id !== id))
+      return latestTodo;
     })
   }
+  const isDoneTodo = (id) => {
+    settodos((prev) => (
+      prev.map((el) => {
+        if (el.id === id) {
+          return { ...el, isDone: !el.isDone }
+        }
+        else return el;
+      })
+    ))
+  }
+
+  useEffect(() => {
+    let todosArray = JSON.parse(localStorage.getItem("todos"));
+    settodos(todosArray);
+  }, [])
+
+  useEffect(() => {
+    localStorage.setItem("todos", JSON.stringify(todos))
+  }, [todos])
+
 
   return (
-    // <TodoContextProvider value={{ todos, addTodo, editTodo, deleteTodo, completeTodo }}>
-    <>
-      <div style={{backgroundImage: `url("https://res.cloudinary.com/dpqdgcipi/image/upload/v1718629371/yfjvxpiaf2w4yedzu3wp.png")`}} className=' bg-cover flex flex-col w-full min-h-screen flex items-center justify-center gap-8'>
-        <figure className='flex justify-center items-center gap-4 text-3xl font-bold ' >
-          <img src="https://res.cloudinary.com/dpqdgcipi/image/upload/v1718629369/p1lyotfklifgzfm4hspu.png" width={30} alt="" />
-          <figcaption className='first-letter:text-blue-400 tracking-widest text-white'>Salaam</figcaption>
-        </figure>
-        <InputBox/>
-        <TodoList/>
+    <TodoContextProvider value={{ todos, addTodo, deleteTodo, editTodo, isDoneTodo }}>
+      <div className='flex gap-8 justify-center sm:w-full items-center w-full flex-col min-h-screen bg-cover' style={{ backgroundImage: `url(https://res.cloudinary.com/dpqdgcipi/image/upload/v1718641814/3d-rendering-blue-pen-with-paper_pedazy.jpg)` }}>
+        <Title />
+        <InputBox />
+        {todos.map((el) => (<div>
+          <TodoList todo={el} />
+        </div>))}
       </div>
-      </>
-    // </TodoContextProvider>
+    </TodoContextProvider>
   )
 }
+
