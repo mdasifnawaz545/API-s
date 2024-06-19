@@ -1,0 +1,8 @@
+
+    @media screen and(max-width:478px){
+        .responsive{
+        min-width: 100 !important;
+        min-width: 100vh !important;
+            
+        }
+    }

@@ -5,6 +5,8 @@ import InputBox from './components/InputBox'
 import TodoList from './components/TodoList'
 import { TodoContextProvider, TodoContext, useTodo } from './context/TodoContext'
 
+import './app.css'
+
 export function App() {
   const [todos, settodos] = useState([]);
 
@@ -52,7 +54,7 @@ export function App() {
 
   return (
     <TodoContextProvider value={{ todos, addTodo, deleteTodo, editTodo, isDoneTodo }}>
-      <div className='flex gap-8 justify-center sm:w-full items-center w-full flex-col min-h-screen bg-cover' style={{ backgroundImage: `url(https://res.cloudinary.com/dpqdgcipi/image/upload/v1718641814/3d-rendering-blue-pen-with-paper_pedazy.jpg)` }}>
+      <div className='flex gap-8 responsive justify-center items-center w-full flex-col min-h-screen bg-cover' style={{ backgroundImage: `url(https://res.cloudinary.com/dpqdgcipi/image/upload/v1718641814/3d-rendering-blue-pen-with-paper_pedazy.jpg)` }}>
         <Title />
         <InputBox />
         {todos.map((el) => (<div>
